@@ -56,6 +56,7 @@ find_package(GTest REQUIRED)
      test/HashMap/HMcopy_test.cpp
      test/HashMap/HMassignop_test.cpp
      test/HashMap/HMclear_test.cpp
+     test/HashMap/HMuserdef_test.cpp
 
       test/RedisLite/RLset_test.cpp
       test/RedisLite/RLget_test.cpp
@@ -92,8 +93,8 @@ if(VALGRIND_PROGRAM)
                 --leak-check=full 
                 --show-leak-kinds=all 
                 --track-origins=yes 
-                $<TARGET_FILE:main>  
-        DEPENDS main                 
+                $<TARGET_FILE:unit_tests>  
+        DEPENDS unit_tests                 
         COMMENT "Running Valgrind memory check on main..."
     )
 else()

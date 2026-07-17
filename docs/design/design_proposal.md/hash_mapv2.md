@@ -105,7 +105,7 @@ else
 
 When `hash(key) % m_capacity` produces the same index for two different keys, both are simply appended to that bucket's `LinkedList<KV<Key,Value>>` — collision handling costs nothing extra to implement since it's just ordinary list insertion.
 
-### Rule of Four (Constructor, Destructor, Copy Constructor, Copy Assignment)
+### Rule of Three ( Destructor, Copy Constructor, Copy Assignment)
 
 - **Copy constructor / copy assignment** both allocate a fresh bucket array at `other.m_capacity`, then placement-new **each bucket using `LinkedList`'s own copy constructor** (`new (&buckets[i]) LinkedList<KV<Key,Value>>(other.buckets[i])`), so every chain — and every `KV` node within it — is independently, deeply copied. This depends on `LinkedList` itself correctly implementing a deep-copying copy constructor, which was a gap identified and fixed as part of this same revision.
 - **Copy assignment** additionally destroys and frees `*this`'s existing bucket array *before* copying from `other`, and checks for self-assignment (`this == &other`) first — without that check, freeing `*this`'s buckets would also destroy `other`'s buckets when `other` and `*this` are the same object.
