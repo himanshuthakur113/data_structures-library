@@ -191,3 +191,23 @@ bool DA<T>::isEmpty() const
 {
     return m_size == 0;
 }
+
+template<typename T>
+void DA<T>::shrink()
+{
+
+    T *ptr = static_cast<T*>(std::malloc((sizeof(T))* m_size));
+    for(int i = 0;i < m_size; ++i)
+    {
+       new (&ptr[i]) T();
+       ptr[i] = data[i];
+    }
+    for(int i = 0;i < _capacity; ++i)
+    {    
+        data[i].~T();
+    }
+    free(data);
+    data = ptr;
+    _capacity = m_size;
+
+}

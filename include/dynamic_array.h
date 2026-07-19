@@ -20,6 +20,8 @@ class DA
         void remove(int index);
         const T& get(int index) const;
 
+        void shrink();
+
         T& operator[](int index);
         const T& operator[](int index) const;
 

@@ -38,9 +38,15 @@ struct point{
 
 int main()
 {   
+    HashMap<int,int> hash(23);
+    DA<int> arr;
+    for(int i = 0;i < 10;i++)
+    {
+        arr.append(i);
+    }
+    cout << arr.size() << endl;
+    cout << arr.capacity() <<endl;
 
-    RedisLite app;
-    app.run();
-
-
+    arr.shrink();
+    cout << arr.capacity() <<endl;
 }

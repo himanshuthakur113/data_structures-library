@@ -15,6 +15,18 @@ HashMap<K,V,H>::HashMap()
 }
 
 template<typename K,typename V,typename H>
+HashMap<K,V,H>::HashMap(int cap)
+{
+    m_size = 0;
+    m_capacity = cap;
+    
+    for(int i = 0;i < m_capacity; ++i)
+    {   
+        buckets.append(LinkedList<KV<K,V>>());
+    }
+}
+
+template<typename K,typename V,typename H>
 HashMap<K,V,H>::~HashMap()
 {
 }
@@ -159,4 +171,18 @@ void HashMap<K,V,H>::clear()
         buckets[i].clear();
     }
     m_size = 0;
+}
+
+template<typename K, typename V,typename H>
+int HashMap<K,V,H>::longest_length()
+{
+    int max_length = 0;
+    for(int i = 0;i < m_capacity; ++i)
+    {
+        if(max_length < buckets[i].size())
+        {
+            max_length = buckets[i].size();
+        }
+    }
+    return max_length;
 }

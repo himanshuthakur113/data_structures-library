@@ -76,6 +76,7 @@ class HashMap
 
     public:
         HashMap();
+        HashMap(int cap);
         ~HashMap();
         HashMap(const HashMap& other);
         HashMap& operator=(const HashMap& other);
@@ -86,6 +87,7 @@ class HashMap
         int size() const;
         bool isEmpty() const;
         void clear();
+        int longest_length();
 
 };
 
