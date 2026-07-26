@@ -1,11 +1,57 @@
-Today I started Project 1 by creating the GitHub repository and setting up the folder structure. After that I worked on the Dynamic Array Design Proposal.
+# Day 1 Journal
 
-Today I spent most of my time thinking about get() and operator[]. At first I thought both are doing the same thing because both are used to access an element from the array. After reading about operator overloading I understood that operator[] should return a reference so that elements can also be modified using arr[i] = value. I decided to keep get() separately because it can be used for safe access with bounds checking.
+## Section 1 — Design Decisions
 
-I also spent time thinking about how the Dynamic Array should resize when it becomes full. I compared increasing the capacity by 1.5x, 2x and 2.5x. After reading about amortized analysis I understood why doubling the capacity is used in most implementations. It reduces the number of times resizing happens while still keeping memory usage reasonable.
+### Design Decision 1: `get()` vs `operator[]`
 
-Later I started working on the Linked List Design Proposal. While writing the memory management section I found a problem with using templates together with malloc() and free(). At first I thought malloc() should work for every data type, but then I learned that it only allocates raw memory and does not create an object.
+While working on the Dynamic Array design proposal, I spent time deciding whether both `get()` and `operator[]` were necessary. Initially, I thought they served the same purpose since both access elements in the array.
 
-I spent some time understanding why this becomes a problem for classes like std::string. Since the constructor is never called, assigning a value to that memory can lead to undefined behaviour. After reading more I understood how placement new works. It constructs the object inside the memory already allocated by malloc(). Similarly, before calling free(), the destructor also needs to be called manually because free() only releases the memory.
+### Design Decision 2: Dynamic Array Resizing
 
-Today I learned that allocating memory and creating an object are two different things. Earlier I used to think malloc() and new were doing the same work, but now I understand that new not only allocates memory but also calls the constructor, while malloc() only allocates raw bytes. This was probably the biggest thing I learned today.
+I also spent time deciding how the Dynamic Array should grow when it becomes full. I compared different resizing strategies before choosing the most suitable one.
+
+### Design Decision 3: Memory Management with Templates
+
+While writing the Linked List design proposal, I discovered a problem with using `malloc()` and `free()` together with template classes that may store non-trivial objects such as `std::string`.
+
+---
+
+## Section 2 — Investigation and Understanding
+
+At first, I believed `get()` and `operator[]` were essentially identical because both return an element from the array. After reading about operator overloading, I learned that `operator[]` should return a reference so users can both read and modify elements using syntax such as:
+
+```cpp
+arr[i] = value;
+```
+
+I decided to keep `get()` as a separate function because it provides a safer interface that can perform bounds checking before returning an element.
+
+While designing the resizing strategy, I compared increasing the capacity by **1.5×**, **2×**, and **2.5×**. After reading about amortized analysis, I understood why most dynamic array implementations double their capacity. Although doubling temporarily allocates more memory than smaller growth factors, it significantly reduces the number of reallocations and provides efficient amortized insertion performance.
+
+During the Linked List design, I initially assumed that `malloc()` could safely allocate memory for every data type. After reading more about object construction, I realized that `malloc()` only allocates raw memory and does not invoke constructors. This becomes a problem for non-trivial types such as `std::string`, whose constructors must be executed before the object can be used safely.
+
+I then learned how **placement new** constructs an object inside already allocated memory. I also learned that when memory is allocated using `malloc()`, destructors must be called explicitly before invoking `free()`, since `free()` only releases memory and does not destroy objects.
+
+---
+
+## Section 3 — Work Completed
+
+**Work Completed**
+
+- Created the GitHub repository for Project 1.
+- Set up the initial project folder structure.
+- Worked on the Dynamic Array design proposal.
+- Finalized the design decision for `get()` and `operator[]`.
+- Selected the Dynamic Array resizing strategy.
+- Started the Linked List design proposal.
+- Documented the memory management approach for template-based containers.
+
+---
+
+## Section 4 — Learning Reflection
+
+Today I learned that **allocating memory** and **constructing an object** are two separate operations. Before today, I assumed that `malloc()` and `new` performed the same task. After studying object construction, I understood that `new` both allocates memory and calls the constructor, whereas `malloc()` only reserves raw memory. When working with non-trivial types such as `std::string`, constructors and destructors must be managed explicitly if raw memory allocation is used.
+
+I also developed a better understanding of C++ operator overloading. Although `get()` and `operator[]` both provide element access, `operator[]` is designed to return a reference so that array elements can be modified naturally through indexing syntax, while `get()` can remain a safer alternative that performs bounds checking.
+
+Finally, I learned why most Dynamic Array implementations **double their capacity** during resizing. Understanding amortized analysis helped me see that doubling provides a good balance between minimizing reallocations and maintaining reasonable memory usage, making insertion operations efficient over time.
