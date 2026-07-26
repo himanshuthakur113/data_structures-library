@@ -131,6 +131,8 @@ void DA<T>::insert(int index,const T &value)
 
     if(m_size > index)
     {
+        new(&data[m_size]) T();
+        
         for(int i = m_size;i > index; --i)
         {
             data[i] = data[i-1];
@@ -195,19 +197,39 @@ bool DA<T>::isEmpty() const
 template<typename T>
 void DA<T>::shrink()
 {
-
-    T *ptr = static_cast<T*>(std::malloc((sizeof(T))* m_size));
+    if(m_size == _capacity)
+    {
+        return;
+    }
+    T *ptr = nullptr;
+    if(m_size > 0)
+    {
+    ptr = static_cast<T*>(std::malloc((sizeof(T))* m_size));
     for(int i = 0;i < m_size; ++i)
     {
        new (&ptr[i]) T();
        ptr[i] = data[i];
     }
-    for(int i = 0;i < _capacity; ++i)
+    }
+    for(int i = 0;i < m_size; ++i)
     {    
         data[i].~T();
     }
-    free(data);
+    std::free(data);
     data = ptr;
     _capacity = m_size;
 
+}
+
+template<typename T> 
+void DA<T>::clear()
+{
+    for(int i = 0; i < m_size; i++)
+    {
+        data[i].~T();
+    }
+    std::free(data);
+    data = nullptr;
+    m_size = 0;
+    _capacity = 0;
 }

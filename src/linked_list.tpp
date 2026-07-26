@@ -278,3 +278,9 @@ void LinkedList<T>::clear()
     tail = nullptr;
     m_size = 0;
 }
+
+template<typename T>
+T& LinkedList<T>::getFront()
+{
+    return head->data;
+}

@@ -21,6 +21,7 @@ class DA
         const T& get(int index) const;
 
         void shrink();
+        void clear();
 
         T& operator[](int index);
         const T& operator[](int index) const;
