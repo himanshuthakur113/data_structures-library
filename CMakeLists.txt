@@ -20,21 +20,43 @@ target_include_directories(DataStructuresLibrary
 )
 
 # ==========================================================
+# Options
+# (tests and demo are only built when this is the top-level
+#  project, so other projects can use this library without
+#  needing GoogleTest installed)
+# ==========================================================
+
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    set(DSLIB_IS_TOP_LEVEL ON)
+else()
+    set(DSLIB_IS_TOP_LEVEL OFF)
+endif()
+
+option(DSLIB_BUILD_TESTS "Build unit tests" ${DSLIB_IS_TOP_LEVEL})
+option(DSLIB_BUILD_DEMO  "Build the RedisLite demo" ${DSLIB_IS_TOP_LEVEL})
+
+# ==========================================================
 # Demo executable
 # ==========================================================
 
-add_executable(ds
-    main.cpp
-    src/redis_lite.cpp
-)
+if(DSLIB_BUILD_DEMO)
 
-target_link_libraries(ds PRIVATE
-    DataStructuresLibrary
-)
+    add_executable(ds
+        main.cpp
+        src/redis_lite.cpp
+    )
+
+    target_link_libraries(ds PRIVATE
+        DataStructuresLibrary
+    )
+
+endif()
 
 # ==========================================================
 # Unit Tests
 # ==========================================================
+
+if(DSLIB_BUILD_TESTS)
 
 enable_testing()
 find_package(GTest REQUIRED)
@@ -81,6 +103,11 @@ add_executable(unit_tests
     test/HashMap/HMclear_test.cpp
     test/HashMap/HMuserdef_test.cpp
 
+    # Queue
+    test/Queue/Qpushpop_test.cpp
+    test/Queue/Qsizeempty_test.cpp
+    test/Queue/Qcopy_test.cpp
+
     # RedisLite
     test/RedisLite/RLset_test.cpp
     test/RedisLite/RLget_test.cpp
@@ -126,3 +153,5 @@ else()
     message(WARNING "Valgrind not found!")
 
 endif()
+
+endif() # DSLIB_BUILD_TESTS
