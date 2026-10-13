@@ -122,7 +122,22 @@ void LinkedList<T>::deleteFront()
 }
 
 template<typename T>
-T* LinkedList<T>::find(const T &value) const
+T* LinkedList<T>::find(const T &value)
+{
+    Node<T>* node= head;
+    while(node != nullptr)
+    {
+        if(node->data == value){
+            return &node->data;
+        }
+
+        node = node->next;
+    }
+    return nullptr;
+}
+
+template<typename T>
+const T* LinkedList<T>::find(const T &value) const
 {
     Node<T>* node= head;
     while(node != nullptr)

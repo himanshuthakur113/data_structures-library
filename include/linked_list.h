@@ -59,7 +59,8 @@ class LinkedList{
         void insertBack(const T &value);
         void deleteFront();
         T& getFront();
-        T* find(const T &value) const;
+        T* find(const T &value);
+        const T* find(const T &value) const;
         void insert(int index,const T &value);
         bool deleteValue(const T& value);
         void deleteAt(int index);

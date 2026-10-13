@@ -71,7 +71,6 @@ class HashMap
         H hasher; 
         
         size_t hash(const K &key) const;
-        V* find(const K &key);
         void rehash();
 
     public:
@@ -82,13 +81,16 @@ class HashMap
         HashMap& operator=(const HashMap& other);
         void insert(const K &key,const V &value);
         V& get(const K &key);
-        bool contains(const K& key);
+        V* find(const K &key);
+        const V* find(const K &key) const;
+        bool contains(const K& key) const;
         bool remove(const K& key);
         int size() const;
         bool isEmpty() const;
         void clear();
         int longest_length();
-
+        void show(int n) const;
+        DA<K> keys() const;
 };
 
 #include "hash_map.tpp"

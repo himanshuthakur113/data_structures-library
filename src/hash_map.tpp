@@ -72,6 +72,22 @@ V* HashMap<K,V,H>::find(const K &key)
     return nullptr;
 }
 
+template<typename K, typename V, typename H>
+const V* HashMap<K,V,H>::find(const K& key) const
+{
+    size_t index = hash(key) % m_capacity;
+    KV<K,V> target(key, V());
+
+    const KV<K,V>* existing = buckets[index].find(target);
+
+    if(existing != nullptr)
+    {
+        return &(existing->value);
+    }
+
+    return nullptr;
+}
+
 template<typename K,typename V,typename H>
 void HashMap<K,V,H>::insert(const K &key,const V &value)
 {
@@ -133,7 +149,7 @@ V& HashMap<K,V,H>::get(const K &key)
 }
 
 template<typename K,typename V,typename H>
-bool HashMap<K,V,H>::contains(const K &key)
+bool HashMap<K,V,H>::contains(const K &key) const
 {
     return find(key) != nullptr;
 }
@@ -185,4 +201,37 @@ int HashMap<K,V,H>::longest_length()
         }
     }
     return max_length;
+}
+
+template<typename K, typename V, typename H>
+void HashMap<K,V,H>::show(int n) const
+{   
+    if(m_capacity < n) return;
+    for(int i = 0; i < n; ++i)
+    {
+        if(buckets[i].size() == 0)
+            continue;
+
+        std::cout << "Bucket " << i << ":\n";
+
+        for(const auto& kv : buckets[i])
+        {
+            std::cout << kv.key << " : ";
+            std::cout << '\n';
+        }
+    }
+}
+
+template<typename K,typename V,typename H>
+DA<K> HashMap<K,V,H>::keys() const
+{
+    DA<K> result;
+    for(int i = 0;i < m_capacity; ++i)  
+    {
+        for(const auto& kv : buckets[i])    
+        {
+            result.append(kv.key);
+        }
+    }
+    return result;
 }
