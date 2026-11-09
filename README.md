@@ -111,9 +111,4 @@ The `docs/` folder records how the project was designed and built:
 - `docs/design/` - design proposals and memory diagrams for each structure
 - `docs/build_logs/` and `docs/journals/` - what was built and learned each day
 
-## Roadmap
 
-- [x] Dynamic Array, Linked List, Hash Map, Queue
-- [x] RedisLite v1
-- [ ] Web crawler and indexer, using this library for the frontier, seen set and page store
-- [ ] Search engine
